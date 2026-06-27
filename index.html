@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Catálogo·EC — Banco de Componentes Electrónicos</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap');
+
+  :root{
+    --bg:#EEF0EC;
+    --panel:#FFFFFF;
+    --panel-2:#FFFFFF;
+    --border:#D7DAD4;
+    --border-soft:#E4E6E1;
+    --text:#1B1E1B;
+    --text-2:#525A54;
+    --text-3:#7E867D;
+    --amber:#B97A00;
+    --cyan:#1E8A9E;
+    --copper:#A85C2C;
+    --phosphor:#2F8F5C;
+    --lavender:#6E5FC4;
+    --danger:#B33334;
+    --mono:'IBM Plex Mono', ui-monospace, SFMono-Regular, monospace;
+    --sans:'IBM Plex Sans', system-ui, -apple-system, sans-serif;
+    --radius:3px;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--sans);
+    line-height:1.5;
+    background-image:
+      radial-gradient(circle, var(--border-soft) 1px, transparent 1px);
+    background-size:28px 28px;
+  }
+
+  ::selection{ background:var(--amber); color:#FFFFFF; }
+
+  a{color:inherit;}
+
+  :focus-visible{
+    outline:2px solid var(--amber);
+    outline-offset:2px;
+  }
+
+  /* ---------- TOP BAR ---------- */
+  .topbar{
+    position:sticky; top:0; z-index:30;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:14px 28px;
+    background:rgba(238,240,236,0.88);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--border);
+  }
+  .brand{
+    display:flex; align-items:center; gap:10px;
+    font-family:var(--mono); font-weight:600;
+    letter-spacing:0.06em; font-size:14px;
+    text-transform:uppercase;
+  }
+  .brand svg{ color:var(--amber); }
+  .brand .dim{ color:var(--text-3); font-weight:400; }
+  .rev-badge{
+    font-family:var(--mono); font-size:11px; letter-spacing:0.08em;
+    color:var(--text-2);
+    border:1px solid var(--border); border-radius:var(--radius);
+    padding:4px 9px;
+    text-transform:uppercase;
+    white-space:nowrap;
+  }
+  .rev-badge b{ color:var(--amber); font-weight:600; }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;
+    padding:64px 28px 40px;
+    max-width:1180px; margin:0 auto;
+    overflow:hidden;
+  }
+  .hero-trace{
+    position:absolute; right:-40px; top:10px;
+    width:480px; height:260px;
+    opacity:0.10;
+    color:var(--amber);
+    pointer-events:none;
+  }
+  .eyebrow{
+    font-family:var(--mono); font-size:12px; letter-spacing:0.16em;
+    color:var(--copper); text-transform:uppercase;
+    display:flex; align-items:center; gap:8px;
+    margin-bottom:18px;
+  }
+  .eyebrow::before{
+    content:""; display:inline-block; width:7px; height:7px;
+    background:var(--copper); border-radius:1px;
+  }
+  h1{
+    font-family:var(--mono); font-weight:700;
+    font-size:clamp(30px, 5vw, 50px);
+    line-height:1.08; letter-spacing:-0.01em;
+    margin:0 0 18px; max-width:780px;
+  }
+  h1 span{ color:var(--text-2); font-weight:400; }
+  .hero p{
+    color:var(--text-2); max-width:560px; font-size:15.5px;
+    margin:0 0 32px;
+  }
+
+  .lookup{
+    display:flex; flex-wrap:wrap; gap:10px;
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    padding:14px;
+    max-width:780px;
+  }
+  .lookup-field{
+    flex:1 1 260px;
+    display:flex; flex-direction:column; gap:6px;
+  }
+  .lookup-label{
+    font-family:var(--mono); font-size:10.5px; letter-spacing:0.1em;
+    color:var(--text-3); text-transform:uppercase;
+  }
+  .lookup input[type="text"]{
+    background:var(--bg);
+    border:1px solid var(--border);
+    border-radius:2px;
+    color:var(--text);
+    font-family:var(--mono);
+    font-size:14px;
+    padding:10px 12px;
+    width:100%;
+  }
+  .lookup input[type="text"]::placeholder{ color:var(--text-3); }
+  .lookup input[type="text"]:focus{
+    border-color:var(--amber);
+  }
+  .result-count{
+    align-self:flex-end;
+    font-family:var(--mono); font-size:12px; color:var(--text-3);
+    padding:10px 4px;
+    white-space:nowrap;
+  }
+  .result-count b{ color:var(--text-2); font-weight:600; }
+
+  /* ---------- FILTER CHIPS ---------- */
+  .filters{
+    max-width:1180px; margin:0 auto;
+    padding:0 28px 8px;
+    display:flex; gap:8px; flex-wrap:wrap;
+  }
+  .chip{
+    font-family:var(--mono); font-size:12.5px;
+    letter-spacing:0.02em;
+    background:transparent;
+    border:1px solid var(--border);
+    color:var(--text-2);
+    border-radius:2px;
+    padding:8px 13px;
+    cursor:pointer;
+    transition:border-color .15s ease, color .15s ease, background .15s ease;
+  }
+  .chip:hover{ border-color:var(--text-3); color:var(--text); }
+  .chip.active{
+    color:var(--bg);
+    font-weight:600;
+  }
+
+  /* ---------- GRID ---------- */
+  .catalog{
+    max-width:1180px; margin:0 auto;
+    padding:24px 28px 10px;
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(260px, 1fr));
+    gap:14px;
+  }
+
+  .card{
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    padding:16px;
+    display:flex; flex-direction:column; gap:12px;
+    cursor:pointer;
+    transition:transform .15s ease, border-color .15s ease, box-shadow .15s ease;
+    text-align:left;
+  }
+  .card:hover, .card:focus-visible{
+    transform:translateY(-2px);
+    box-shadow:0 8px 20px rgba(30,32,28,0.10);
+  }
+  .card-top{
+    display:flex; align-items:flex-start; justify-content:space-between; gap:8px;
+  }
+  .pkg-icon{
+    width:30px; height:30px;
+    border:1px solid var(--border);
+    border-radius:2px;
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+  }
+  .pkg-icon svg{ width:18px; height:18px; }
+  .stock{
+    display:flex; align-items:center; gap:6px;
+    font-family:var(--mono); font-size:10px; letter-spacing:0.08em;
+    text-transform:uppercase; color:var(--text-3);
+  }
+  .stock .dot{ width:6px; height:6px; border-radius:50%; }
+  .stock.in .dot{ background:var(--phosphor); }
+  .stock.out .dot{ background:var(--danger); }
+
+  .card-id{
+    font-family:var(--mono); font-size:11px; letter-spacing:0.04em;
+    color:var(--text-3); text-transform:uppercase;
+  }
+  .card-name{
+    font-family:var(--sans); font-weight:600; font-size:15.5px;
+    color:var(--text); margin:0;
+    line-height:1.3;
+  }
+  .cat-tag{
+    display:inline-block;
+    font-family:var(--mono); font-size:10.5px; letter-spacing:0.06em;
+    text-transform:uppercase;
+    padding:3px 8px; border-radius:2px;
+    width:fit-content;
+  }
+
+  .spec-mini{
+    display:grid; grid-template-columns:1fr 1fr;
+    gap:6px 10px;
+    font-family:var(--mono); font-size:11.5px;
+    border-top:1px solid var(--border-soft);
+    padding-top:10px;
+  }
+  .spec-mini div{ color:var(--text-3); }
+  .spec-mini div b{ display:block; color:var(--text-2); font-weight:500; margin-top:1px; }
+
+  .card-cta{
+    font-family:var(--mono); font-size:12px; letter-spacing:0.03em;
+    color:var(--text-3);
+    display:flex; align-items:center; gap:5px;
+    margin-top:auto;
+  }
+  .card:hover .card-cta{ color:var(--amber); }
+
+  .empty-state{
+    grid-column:1/-1;
+    border:1px dashed var(--border);
+    border-radius:var(--radius);
+    padding:48px 24px;
+    text-align:center;
+    color:var(--text-2);
+    font-family:var(--mono); font-size:13px; letter-spacing:0.02em;
+  }
+  .empty-state strong{ display:block; color:var(--text); font-size:15px; margin-bottom:6px; font-family:var(--sans); }
+
+  /* ---------- REVISION HISTORY ---------- */
+  .revhist{
+    max-width:1180px; margin:56px auto 0;
+    padding:0 28px;
+  }
+  .revhist h2{
+    font-family:var(--mono); font-size:13px; letter-spacing:0.12em;
+    text-transform:uppercase; color:var(--text-2);
+    margin:0 0 14px;
+    display:flex; align-items:center; gap:10px;
+  }
+  .revhist h2::after{
+    content:""; flex:1; height:1px; background:var(--border);
+  }
+  table.rev-table{
+    width:100%; border-collapse:collapse;
+    font-family:var(--mono); font-size:12.5px;
+  }
+  .rev-table th{
+    text-align:left; color:var(--text-3); font-weight:500;
+    text-transform:uppercase; letter-spacing:0.06em; font-size:10.5px;
+    padding:8px 10px; border-bottom:1px solid var(--border);
+  }
+  .rev-table td{
+    padding:10px; border-bottom:1px solid var(--border-soft);
+    color:var(--text-2); vertical-align:top;
+  }
+  .rev-table td:first-child{ color:var(--amber); font-weight:600; white-space:nowrap; }
+  .rev-table td:nth-child(2){ color:var(--text-3); white-space:nowrap; }
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    max-width:1180px; margin:40px auto 0;
+    padding:24px 28px 40px;
+    display:flex; justify-content:space-between; align-items:center;
+    flex-wrap:wrap; gap:10px;
+    color:var(--text-3); font-family:var(--mono); font-size:11.5px;
+    letter-spacing:0.02em;
+  }
+
+  /* ---------- MODAL ---------- */
+  .overlay{
+    position:fixed; inset:0; z-index:50;
+    background:rgba(30,32,28,0.45);
+    display:flex; align-items:center; justify-content:center;
+    padding:20px;
+    opacity:0; pointer-events:none;
+    transition:opacity .15s ease;
+  }
+  .overlay.open{ opacity:1; pointer-events:auto; }
+
+  .modal{
+    background:var(--panel-2);
+    border:1px solid var(--border);
+    border-radius:4px;
+    max-width:560px; width:100%;
+    max-height:86vh; overflow-y:auto;
+    padding:26px;
+    transform:translateY(10px);
+    transition:transform .15s ease;
+  }
+  .overlay.open .modal{ transform:translateY(0); }
+
+  .modal-head{
+    display:flex; justify-content:space-between; align-items:flex-start;
+    gap:14px; margin-bottom:18px;
+  }
+  .modal-close{
+    background:transparent; border:1px solid var(--border);
+    color:var(--text-2); width:30px; height:30px; border-radius:2px;
+    cursor:pointer; font-family:var(--mono); font-size:14px;
+    flex-shrink:0;
+  }
+  .modal-close:hover{ border-color:var(--text-2); color:var(--text); }
+
+  .modal-icon{
+    width:46px; height:46px; border:1px solid var(--border); border-radius:3px;
+    display:flex; align-items:center; justify-content:center; margin-bottom:14px;
+  }
+  .modal-icon svg{ width:26px; height:26px; }
+
+  .modal h3{
+    font-family:var(--sans); font-size:20px; font-weight:700; margin:0 0 4px;
+  }
+  .modal .card-id{ margin-bottom:10px; display:block; }
+  .modal-desc{
+    color:var(--text-2); font-size:14px; margin:0 0 20px; line-height:1.6;
+  }
+  table.full-spec{ width:100%; border-collapse:collapse; font-family:var(--mono); font-size:13px; }
+  .full-spec tr{ border-bottom:1px solid var(--border-soft); }
+  .full-spec td{ padding:9px 4px; }
+  .full-spec td:first-child{ color:var(--text-3); width:46%; }
+  .full-spec td:last-child{ color:var(--text); text-align:right; }
+
+  @media (max-width:640px){
+    .topbar{ padding:12px 16px; }
+    .hero{ padding:40px 16px 28px; }
+    .filters, .catalog, .revhist, footer{ padding-left:16px; padding-right:16px; }
+    .lookup{ flex-direction:column; }
+    .result-count{ align-self:flex-start; padding-left:0; }
+    .rev-table th:nth-child(2), .rev-table td:nth-child(2){ display:none; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ transition:none !important; scroll-behavior:auto !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- SVG SPRITE: package icons -->
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <symbol id="ic-resistor" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M1 12h4l2-6 3 12 3-12 3 12 2-6h5"/>
+    </symbol>
+    <symbol id="ic-capacitor" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+      <path d="M1 12h8M9 5v14M15 5v14M15 12h8"/>
+    </symbol>
+    <symbol id="ic-diode" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round">
+      <path d="M1 12h6M8 6v12l9-6-9-6Z"/>
+      <path d="M17 6v12M17 12h6"/>
+    </symbol>
+    <symbol id="ic-chip" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+      <rect x="6" y="6" width="12" height="12" rx="1"/>
+      <path d="M3 9h3M3 15h3M18 9h3M18 15h3M9 3v3M15 3v3M9 18v3M15 18v3"/>
+    </symbol>
+    <symbol id="ic-sensor" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+      <rect x="4" y="8" width="16" height="10" rx="1.5"/>
+      <circle cx="12" cy="13" r="2.6"/>
+      <path d="M9 5.5c1.7-1.7 4.3-1.7 6 0M7.2 7.2c2.6-2.6 6.9-2.6 9.5 0"/>
+    </symbol>
+    <symbol id="ic-connector" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+      <path d="M4 6v12M9 6v12M14 6v12M19 6v12M2 5h4M7 5h4M12 5h4M17 5h4M2 19h4M7 19h4M12 19h4M17 19h4"/>
+    </symbol>
+  </defs>
+</svg>
+
+<header class="topbar">
+  <div class="brand">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="6" y="6" width="12" height="12" rx="1"/><path d="M3 9h3M3 15h3M18 9h3M18 15h3M9 3v3M15 3v3M9 18v3M15 18v3"/></svg>
+    CATÁLOGO<span class="dim">·</span>EC
+  </div>
+  <div class="rev-badge">REV <b>1.0</b> · 25 COMPONENTES</div>
+</header>
+
+<section class="hero">
+  <svg class="hero-trace" viewBox="0 0 480 260" fill="none" stroke="currentColor" stroke-width="2">
+    <path d="M-10 60 H120 L150 30 L180 90 L210 30 L240 90 L270 60 H480"/>
+    <path d="M-10 180 H90 V210 H260 V150 H400"/>
+    <circle cx="150" cy="30" r="3" fill="currentColor" stroke="none"/>
+    <circle cx="400" cy="150" r="3" fill="currentColor" stroke="none"/>
+  </svg>
+  <p class="eyebrow">Almacén de componentes · actualizado por sesión</p>
+  <h1>Banco de componentes <span>electrónicos</span></h1>
+  <p>Ficha técnica de cada pieza disponible para tus proyectos: resistencias, semiconductores, microcontroladores, sensores y conectores. El catálogo crece conforme avanzamos — cada sesión queda registrada en el historial de revisiones, al final de la página.</p>
+
+  <div class="lookup">
+    <div class="lookup-field">
+      <label class="lookup-label" for="search">Buscar por referencia o nombre</label>
+      <input type="text" id="search" placeholder="ej. ESP32, resistencia 220, sensor de humedad…" autocomplete="off">
+    </div>
+    <div class="result-count" id="resultCount"><b>25</b> de 25 piezas</div>
+  </div>
+</section>
+
+<nav class="filters" id="filters" aria-label="Filtrar por categoría"></nav>
+
+<main class="catalog" id="catalog"></main>
+
+<section class="revhist">
+  <h2>Historial de revisiones</h2>
+  <table class="rev-table">
+    <thead>
+      <tr><th>Rev.</th><th>Fecha</th><th>Cambios</th></tr>
+    </thead>
+    <tbody id="revBody">
+      <tr>
+        <td>1.0</td>
+        <td>2026-06-19</td>
+        <td>Catálogo inicial — 25 componentes en 6 categorías (resistencias, capacitores, semiconductores, CI/microcontroladores, sensores, conectores).</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<footer>
+  <span>Catálogo·EC — banco de referencia de componentes electrónicos</span>
+  <span>Generado con Claude</span>
+</footer>
+
+<div class="overlay" id="overlay" role="dialog" aria-modal="true" aria-labelledby="modalName">
+  <div class="modal" id="modalBody"></div>
+</div>
+
+<script>
+const CATEGORIES = {
+  resistencias:   { label: "Resistencias",          color: "#B97A00" },
+  capacitores:    { label: "Capacitores",           color: "#1E8A9E" },
+  semiconductores:{ label: "Semiconductores",       color: "#A85C2C" },
+  ci:             { label: "CI / Microcontroladores", color: "#2F8F5C" },
+  sensores:       { label: "Sensores",              color: "#6E5FC4" },
+  conectores:     { label: "Conectores y otros",    color: "#9C7F1F" }
+};
+
+const ICONS = {
+  resistencias: "ic-resistor",
+  capacitores: "ic-capacitor",
+  semiconductores: "ic-diode",
+  ci: "ic-chip",
+  sensores: "ic-sensor",
+  conectores: "ic-connector"
+};
+
+const COMPONENTS = [
+  { ref:"R-220R-1/4W", name:"Resistor 220Ω 1/4W", cat:"resistencias", pkg:"THT axial", stock:true,
+    specs:[["Resistencia","220 Ω"],["Tolerancia","±5%"],["Potencia","0.25 W"],["Código color","Rojo-Rojo-Marrón"]],
+    desc:"Resistor de carbón de propósito general, montaje pasante. Ideal para limitar corriente en LEDs y circuitos de baja potencia en protoboard." },
+  { ref:"R-10K-1/4W", name:"Resistor 10kΩ 1/4W", cat:"resistencias", pkg:"THT axial", stock:true,
+    specs:[["Resistencia","10 kΩ"],["Tolerancia","±5%"],["Potencia","0.25 W"],["Código color","Marrón-Negro-Naranja"]],
+    desc:"Valor estándar usado como resistor pull-up/pull-down en líneas digitales y divisores de voltaje." },
+  { ref:"POT-10K-B", name:"Potenciómetro 10kΩ lineal", cat:"resistencias", pkg:"THT vertical", stock:true,
+    specs:[["Resistencia","10 kΩ"],["Curva","Lineal (B)"],["Vueltas","1 vuelta"],["Tolerancia","±20%"]],
+    desc:"Potenciómetro de eje vertical para ajuste manual de voltaje o resistencia variable en prototipos." },
+  { ref:"C-CER-100N", name:"Capacitor cerámico 100nF", cat:"capacitores", pkg:"THT disco", stock:true,
+    specs:[["Capacitancia","100 nF"],["Voltaje","50 V"],["Dieléctrico","X7R"],["Tolerancia","±10%"]],
+    desc:"Capacitor de desacople estándar (0.1µF) para colocar cerca de cada IC y filtrar ruido de alimentación." },
+  { ref:"C-ELEC-100U/25V", name:"Capacitor electrolítico 100µF 25V", cat:"capacitores", pkg:"THT radial", stock:true,
+    specs:[["Capacitancia","100 µF"],["Voltaje","25 V"],["ESR","Bajo"],["Vida útil","2000 h @105°C"]],
+    desc:"Capacitor polarizado para filtrado de fuentes de alimentación y suavizado de rizo." },
+  { ref:"C-TANT-10U", name:"Capacitor de tantalio 10µF", cat:"capacitores", pkg:"SMD Tipo A", stock:false,
+    specs:[["Capacitancia","10 µF"],["Voltaje","16 V"],["Tolerancia","±10%"],["Montaje","SMD"]],
+    desc:"Mayor estabilidad y menor tamaño que un electrolítico equivalente; usado en módulos compactos." },
+  { ref:"D-1N4007", name:"Diodo rectificador 1N4007", cat:"semiconductores", pkg:"THT DO-41", stock:true,
+    specs:[["V. inverso","1000 V"],["Corriente","1 A"],["Caída directa","1.1 V"],["Uso típico","Rectificación"]],
+    desc:"Diodo rectificador de propósito general, comúnmente usado en fuentes de alimentación lineales y protección contra polaridad inversa." },
+  { ref:"LED-5MM-ROJO", name:"LED 5mm rojo difuso", cat:"semiconductores", pkg:"THT T1¾", stock:true,
+    specs:[["V. directo","2.0 V"],["Corriente","20 mA"],["Intensidad","80 mcd"],["Ángulo","30°"]],
+    desc:"LED indicador estándar para señalización de estado en proyectos con Arduino o lógica digital." },
+  { ref:"Q-2N2222", name:"Transistor NPN 2N2222", cat:"semiconductores", pkg:"THT TO-92", stock:true,
+    specs:[["Vceo","40 V"],["Ic máx","600 mA"],["hFE","100–300"],["Ft","250 MHz"]],
+    desc:"Transistor NPN de uso general para conmutación y amplificación en señales de baja potencia." },
+  { ref:"Q-IRF540N", name:"MOSFET canal N IRF540N", cat:"semiconductores", pkg:"THT TO-220", stock:true,
+    specs:[["Vds","100 V"],["Id","33 A"],["Rds(on)","44 mΩ"],["Vgs(th)","2–4 V"]],
+    desc:"MOSFET de potencia para conmutación de cargas como motores DC y tiras LED desde un microcontrolador." },
+  { ref:"D-ZEN-5V1", name:"Diodo Zener 5.1V", cat:"semiconductores", pkg:"THT DO-35", stock:true,
+    specs:[["V. Zener","5.1 V"],["Potencia","0.5 W"],["Tolerancia","±5%"],["Uso típico","Regulación"]],
+    desc:"Diodo de referencia de voltaje para reguladores simples y circuitos de protección." },
+  { ref:"IC-ATMEGA328P", name:"Microcontrolador ATmega328P", cat:"ci", pkg:"DIP-28", stock:true,
+    specs:[["Arquitectura","AVR 8-bit"],["Flash","32 KB"],["Reloj máx","20 MHz"],["GPIO","23"]],
+    desc:"El microcontrolador detrás del Arduino Uno. Núcleo de incontables proyectos embebidos por su simplicidad y soporte." },
+  { ref:"MOD-ESP32-WROOM32", name:"Módulo WiFi/BT ESP32-WROOM-32", cat:"ci", pkg:"SMD castellated", stock:false,
+    specs:[["CPU","Dual-core 240 MHz"],["WiFi","802.11 b/g/n"],["Bluetooth","4.2 BLE"],["GPIO","34"]],
+    desc:"Módulo todo-en-uno con WiFi y Bluetooth integrados, ideal para proyectos IoT y control remoto." },
+  { ref:"DEV-ARDUINO-NANO", name:"Placa de desarrollo Arduino Nano", cat:"ci", pkg:"Módulo THT", stock:true,
+    specs:[["MCU","ATmega328P"],["Voltaje","5 V"],["Entradas analógicas","8"],["Conector","USB Mini-B"]],
+    desc:"Versión compacta de Arduino Uno, perfecta para protoboard por su tamaño reducido." },
+  { ref:"IC-NE555", name:"Temporizador NE555", cat:"ci", pkg:"DIP-8", stock:true,
+    specs:[["Voltaje","4.5–16 V"],["Modos","Astable / Monoestable"],["Corriente salida","200 mA"],["Uso típico","Temporización, PWM"]],
+    desc:"El circuito integrado más icónico de la electrónica analógica; genera pulsos y temporizadores sin necesidad de microcontrolador." },
+  { ref:"MOD-L298N", name:"Driver de motores L298N", cat:"ci", pkg:"Módulo THT", stock:true,
+    specs:[["Canales","2"],["Corriente máx","2 A / canal"],["Voltaje motor","5–35 V"],["Control","PWM + dirección"]],
+    desc:"Puente H doble para controlar velocidad y dirección de dos motores DC desde un microcontrolador." },
+  { ref:"DEV-RPI-PICO", name:"Microcontrolador Raspberry Pi Pico", cat:"ci", pkg:"SMD castellated", stock:false,
+    specs:[["Chip","RP2040 Dual-core"],["Reloj","133 MHz"],["RAM","264 KB"],["GPIO","26"]],
+    desc:"Placa de bajo costo con gran capacidad de procesamiento, programable en MicroPython o C/C++." },
+  { ref:"SEN-DHT11", name:"Sensor de temperatura y humedad DHT11", cat:"sensores", pkg:"Módulo THT", stock:true,
+    specs:[["Temperatura","0–50°C ±2°C"],["Humedad","20–90% ±5%"],["Interfaz","Digital 1-wire"],["Lectura","~1 Hz"]],
+    desc:"Sensor económico de clima, suficiente para estaciones meteorológicas básicas y proyectos escolares." },
+  { ref:"SEN-HCSR04", name:"Sensor ultrasónico de distancia HC-SR04", cat:"sensores", pkg:"Módulo THT", stock:true,
+    specs:[["Rango","2–400 cm"],["Precisión","±3 mm"],["Ángulo","15°"],["Voltaje","5 V"]],
+    desc:"Mide distancia por tiempo de vuelo de ultrasonido; muy usado en robots evasores de obstáculos." },
+  { ref:"SEN-MPU6050", name:"IMU acelerómetro/giroscopio MPU6050", cat:"sensores", pkg:"Módulo SMD", stock:true,
+    specs:[["Ejes","6 (3 acel + 3 giro)"],["Interfaz","I2C"],["Rango acel.","±16 g"],["Rango giro","±2000°/s"]],
+    desc:"Unidad de medición inercial para detección de orientación y movimiento en drones y robots balanceadores." },
+  { ref:"SEN-LDR-5MM", name:"Fotoresistor LDR 5mm", cat:"sensores", pkg:"THT", stock:true,
+    specs:[["R (luz)","5–10 kΩ"],["R (oscuridad)","≈1 MΩ"],["T. respuesta","20–30 ms"],["Uso típico","Sensado de luz ambiental"]],
+    desc:"Resistencia que varía con la luz incidente; base de circuitos de luces automáticas y alarmas de luz." },
+  { ref:"SEN-PIR-HCSR501", name:"Sensor de movimiento PIR HC-SR501", cat:"sensores", pkg:"Módulo THT", stock:true,
+    specs:[["Rango","3–7 m"],["Ángulo","120°"],["Retardo","ajustable 5s–300s"],["Voltaje","5–20 V"]],
+    desc:"Detecta movimiento por radiación infrarroja; componente clásico en sistemas de alarma y luces automáticas." },
+  { ref:"CON-HDR-40P", name:"Header macho 40 pines (2.54mm)", cat:"conectores", pkg:"THT recto", stock:true,
+    specs:[["Paso","2.54 mm"],["Pines","40 (1×40)"],["Altura","8.5 mm"],["Uso típico","Pines de expansión"]],
+    desc:"Tira de pines partible a la medida; el conector más común para módulos y placas de desarrollo." },
+  { ref:"CON-PROTO-830", name:"Protoboard 830 puntos", cat:"conectores", pkg:"Accesorio", stock:true,
+    specs:[["Puntos","830"],["Buses","2× alimentación"],["Dimensiones","16.5 × 5.5 cm"],["Uso típico","Prototipado sin soldadura"]],
+    desc:"Base de prototipado estándar para armar y probar circuitos antes de soldarlos en definitivo." },
+  { ref:"CON-BUZZ-PASV", name:"Buzzer piezoeléctrico pasivo", cat:"conectores", pkg:"THT 12mm", stock:true,
+    specs:[["Frecuencia","2–4 kHz"],["Voltaje","3–24 V"],["Diámetro","12 mm"],["Control","Requiere señal PWM"]],
+    desc:"Emisor de sonido controlado por frecuencia; permite generar tonos y melodías simples vía PWM." }
+];
+
+const catalogEl = document.getElementById('catalog');
+const filtersEl = document.getElementById('filters');
+const searchEl = document.getElementById('search');
+const countEl = document.getElementById('resultCount');
+const overlay = document.getElementById('overlay');
+const modalBody = document.getElementById('modalBody');
+
+let activeCat = 'todos';
+
+function buildFilters(){
+  const all = document.createElement('button');
+  all.className = 'chip active';
+  all.textContent = 'Todos';
+  all.dataset.cat = 'todos';
+  filtersEl.appendChild(all);
+
+  Object.entries(CATEGORIES).forEach(([key, c]) => {
+    const btn = document.createElement('button');
+    btn.className = 'chip';
+    btn.textContent = c.label;
+    btn.dataset.cat = key;
+    filtersEl.appendChild(btn);
+  });
+
+  filtersEl.addEventListener('click', (e) => {
+    const btn = e.target.closest('.chip');
+    if(!btn) return;
+    activeCat = btn.dataset.cat;
+    [...filtersEl.children].forEach(c => {
+      c.classList.toggle('active', c === btn);
+      if(c === btn){
+        const color = c.dataset.cat === 'todos' ? 'var(--amber)' : CATEGORIES[c.dataset.cat].color;
+        c.style.background = color;
+        c.style.borderColor = color;
+      } else {
+        c.style.background = 'transparent';
+        c.style.borderColor = 'var(--border)';
+      }
+    });
+    render();
+  });
+
+  // init active style
+  all.style.background = 'var(--amber)';
+  all.style.borderColor = 'var(--amber)';
+}
+
+function matches(item, query){
+  if(!query) return true;
+  const q = query.toLowerCase();
+  return item.ref.toLowerCase().includes(q) ||
+         item.name.toLowerCase().includes(q) ||
+         item.desc.toLowerCase().includes(q);
+}
+
+function render(){
+  const query = searchEl.value.trim();
+  const filtered = COMPONENTS.filter(item =>
+    (activeCat === 'todos' || item.cat === activeCat) && matches(item, query)
+  );
+
+  countEl.innerHTML = `<b>${filtered.length}</b> de ${COMPONENTS.length} piezas`;
+  catalogEl.innerHTML = '';
+
+  if(filtered.length === 0){
+    catalogEl.innerHTML = `
+      <div class="empty-state">
+        <strong>Sin coincidencias</strong>
+        Ajusta el texto de búsqueda o elige otra categoría.
+      </div>`;
+    return;
+  }
+
+  filtered.forEach(item => {
+    const cat = CATEGORIES[item.cat];
+    const card = document.createElement('article');
+    card.className = 'card';
+    card.tabIndex = 0;
+    card.setAttribute('role','button');
+    card.setAttribute('aria-label', `Ver ficha técnica de ${item.name}`);
+
+    card.innerHTML = `
+      <div class="card-top">
+        <div class="pkg-icon" style="color:${cat.color}; border-color:${cat.color}33">
+          <svg><use href="#${ICONS[item.cat]}"/></svg>
+        </div>
+        <div class="stock ${item.stock ? 'in' : 'out'}">
+          <span class="dot"></span>${item.stock ? 'Disponible' : 'Agotado'}
+        </div>
+      </div>
+      <div>
+        <span class="card-id">${item.ref}</span>
+        <p class="card-name">${item.name}</p>
+      </div>
+      <span class="cat-tag" style="color:${cat.color}; background:${cat.color}1A">${cat.label}</span>
+      <div class="spec-mini">
+        ${item.specs.slice(0,4).map(([l,v]) => `<div>${l}<b>${v}</b></div>`).join('')}
+      </div>
+      <div class="card-cta">Ver ficha técnica →</div>
+    `;
+
+    card.addEventListener('click', () => openModal(item));
+    card.addEventListener('keydown', (e) => {
+      if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); openModal(item); }
+    });
+
+    catalogEl.appendChild(card);
+  });
+}
+
+function openModal(item){
+  const cat = CATEGORIES[item.cat];
+  modalBody.innerHTML = `
+    <div class="modal-head">
+      <div>
+        <div class="modal-icon" style="color:${cat.color}; border-color:${cat.color}33">
+          <svg><use href="#${ICONS[item.cat]}"/></svg>
+        </div>
+        <span class="card-id" id="modalName">${item.ref} · ${item.pkg}</span>
+        <h3>${item.name}</h3>
+        <span class="cat-tag" style="color:${cat.color}; background:${cat.color}1A">${cat.label}</span>
+      </div>
+      <button class="modal-close" id="modalClose" aria-label="Cerrar">✕</button>
+    </div>
+    <p class="modal-desc">${item.desc}</p>
+    <table class="full-spec">
+      ${item.specs.map(([l,v]) => `<tr><td>${l}</td><td>${v}</td></tr>`).join('')}
+      <tr><td>Empaque</td><td>${item.pkg}</td></tr>
+      <tr><td>Estado</td><td style="color:${item.stock ? 'var(--phosphor)' : 'var(--danger)'}">${item.stock ? 'Disponible' : 'Agotado'}</td></tr>
+    </table>
+  `;
+  overlay.classList.add('open');
+  document.getElementById('modalClose').addEventListener('click', closeModal);
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal(){
+  overlay.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+overlay.addEventListener('click', (e) => { if(e.target === overlay) closeModal(); });
+document.addEventListener('keydown', (e) => { if(e.key === 'Escape') closeModal(); });
+
+searchEl.addEventListener('input', render);
+
+buildFilters();
+render();
+</script>
+</body>
+</html>
