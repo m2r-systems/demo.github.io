@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RG Electronics | Ingeniería, Diseño y Soluciones Electrónicas Industriales</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            blue: '#0F2A4A',
+                            lightBlue: '#1E40AF',
+                            accent: '#2563EB',
+                            orange: '#F97316',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="bg-slate-50 text-slate-800 font-sans">
+
+    <!-- TOP BAR -->
+    <div class="bg-brand-blue text-slate-200 text-xs py-2 px-4 border-b border-slate-700">
+        <div class="max-w-7xl mx-auto flex flex-row justify-between items-center gap-2">
+            <div class="flex items-center gap-4 text-[11px] sm:text-xs overflow-hidden">
+                <span class="flex items-center gap-1 shrink-0"><i data-lucide="phone"
+                        class="w-3.5 h-3.5 text-brand-orange"></i> +52 1 33 5036 3374</span>
+                <span class="hidden md:flex items-center gap-1"><i data-lucide="mail"
+                        class="w-3.5 h-3.5 text-brand-orange"></i> reinaldo.garcia1026@gmail.com</span>
+            </div>
+            <!-- SELECTOR BILINGÜE -->
+            <div class="flex items-center gap-2 font-bold text-xs shrink-0">
+                <button id="btn-es" onclick="switchLanguage('es')"
+                    class="px-2 py-0.5 rounded bg-brand-orange text-white transition">ES</button>
+                <span class="text-slate-500">|</span>
+                <button id="btn-en" onclick="switchLanguage('en')"
+                    class="px-2 py-0.5 rounded text-slate-400 hover:text-white transition">EN</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- HEADER / NAV -->
+    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur shadow-sm  mb-12">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+            <!-- Logo -->
+            <a href="#" class="flex items-center gap-2 sm:gap-3">
+                <div
+                    class="w-9 h-9 sm:w-10 sm:h-10 bg-brand-blue text-white rounded-lg flex items-center justify-center font-bold text-lg sm:text-xl tracking-wider">
+                    RG
+                </div>
+                <div>
+                    <span class="text-lg sm:text-xl font-extrabold text-brand-blue tracking-tight block leading-none">RG
+                        Electronics</span>
+                    <span data-i18n="tagline"
+                        class="text-[9px] sm:text-[10px] text-slate-500 uppercase tracking-widest block mt-0.5">Ingeniería
+                        & Soluciones</span>
+                </div>
+            </a>
+
+            <!-- Desktop Navigation -->
+            <nav class="hidden lg:flex items-center gap-6 text-sm font-medium text-slate-600">
+                <a href="#inicio" data-i18n="navHome" class="hover:text-brand-accent transition">Inicio</a>
+                <a href="#diseno" data-i18n="navDesign" class="hover:text-brand-accent transition">Diseño</a>
+                <a href="#soluciones" data-i18n="navFire" class="hover:text-brand-accent transition">Soluciones</a>
+                <a href="#ensamble" data-i18n="navAssembly" class="hover:text-brand-accent transition">Ensamble</a>
+                <a href="#distribucion" data-i18n="navDist" class="hover:text-brand-accent transition">Distribución</a>
+                <a href="#contacto" data-i18n="navContact" class="hover:text-brand-accent transition">Contacto</a>
+            </nav>
+
+            <!-- Desktop CTA & Mobile Toggle -->
+            <div class="flex items-center gap-2">
+                <button onclick="toggleModal()" data-i18n="btnQuote"
+                    class="hidden sm:flex bg-brand-orange hover:bg-orange-600 text-white font-semibold text-xs sm:text-sm px-4 py-2.5 rounded-lg shadow transition items-center gap-2">
+                    <i data-lucide="file-text" class="w-4 h-4"></i>
+                    Solicitar Cotización
+                </button>
+
+                <!-- Botón Menú Móvil -->
+                <button onclick="toggleMobileMenu()"
+                    class="lg:hidden p-2 text-slate-700 hover:text-brand-blue focus:outline-none">
+                    <i data-lucide="menu" id="menu-icon" class="w-6 h-6"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Dropdown Navigation -->
+        <div id="mobile-menu"
+            class="hidden lg:hidden bg-white border-b border-slate-200 px-4 pt-2 pb-4 space-y-3 text-sm font-medium text-slate-700">
+            <a href="#inicio" onclick="toggleMobileMenu()" data-i18n="navHome"
+                class="block py-1 hover:text-brand-accent">Inicio</a>
+            <a href="#diseno" onclick="toggleMobileMenu()" data-i18n="navDesign"
+                class="block py-1 hover:text-brand-accent">Diseño</a>
+            <a href="#ensamble" onclick="toggleMobileMenu()" data-i18n="navAssembly"
+                class="block py-1 hover:text-brand-accent">Ensamble</a>
+            <a href="#distribucion" onclick="toggleMobileMenu()" data-i18n="navDist"
+                class="block py-1 hover:text-brand-accent">Distribución</a>
+            <a href="#contacto" onclick="toggleMobileMenu()" data-i18n="navContact"
+                class="block py-1 hover:text-brand-accent">Contacto</a>
+            <button onclick="toggleMobileMenu(); toggleModal();" data-i18n="btnQuote"
+                class="w-full bg-brand-orange text-white font-semibold py-2.5 rounded-lg shadow flex justify-center items-center gap-2">
+                <i data-lucide="file-text" class="w-4 h-4"></i>
+                Solicitar Cotización
+            </button>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section id="inicio"
+        class="relative bg-gradient-to-br from-brand-blue via-slate-900 to-slate-800 text-white py-12 sm:py-20 px-4 overflow-hidden">
+        <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-8 md:gap-12 items-center">
+            <div>
+                <span data-i18n="heroBadge"
+                    class="inline-block bg-brand-accent/20 text-blue-300 text-lg font-semibold px-3 py-1 rounded-full mb-4 border border-blue-500/30">
+                    Más de 25 años de experiencia
+                </span>
+                <h1 data-i18n="heroTitle"
+                    class="text-2xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight mb-4 sm:mb-6 leading-tight">
+                    Diseño y Soluciones Electrónicas Industriales a la Medida
+                </h1>
+                <p data-i18n="heroSubtitle"
+                    class="text-slate-300 text-sm sm:text-base lg:text-lg mb-6 sm:mb-8 leading-relaxed">
+                    Especialistas en tarjetas electrónicas para sistemas contra incendio, ensamble de tableros
+                    eléctricos y distribución autorizada de equipo industrial.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-3 sm:gap-4">
+                    <button onclick="toggleModal()" data-i18n="heroCta"
+                        class="bg-brand-orange hover:bg-orange-600 text-white font-semibold px-6 py-3 rounded-lg shadow-lg transition flex items-center justify-center gap-2 text-sm sm:text-base">
+                        Solicitud de Servicio
+                        <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </button>
+                    <a href="#soluciones" data-i18n="heroSecondary"
+                        class="bg-white/10 hover:bg-white/20 text-white font-semibold px-6 py-3 rounded-lg border border-white/20 transition text-center text-sm sm:text-base">
+                        Ver Soluciones
+                    </a>
+                </div>
+            </div>
+
+            <!-- Tech Cards Grid -->
+            <div class="bg-white/5 border border-white/10 rounded-2xl p-4 sm:p-6 backdrop-blur-md">
+                <div class="grid grid-cols-2 gap-3 sm:gap-4">
+                    <div class="p-3 sm:p-4 rounded-xl bg-slate-800/80 border border-slate-700">
+                        <i data-lucide="flame" class="w-6 h-6 sm:w-8 sm:h-8 text-brand-orange mb-2"></i>
+                        <h3 data-i18n="cardFireTitle" class="font-bold text-xs sm:text-sm text-white">Sistemas Contra
+                            Incendio</h3>
+                        <p data-i18n="cardFireDesc" class="text-[11px] sm:text-xs text-slate-400 mt-1">Tarjetas de
+                            temporización, conexiones e inspector.</p>
+                    </div>
+                    <div class="p-3 sm:p-4 rounded-xl bg-slate-800/80 border border-slate-700">
+                        <i data-lucide="cpu" class="w-6 h-6 sm:w-8 sm:h-8 text-blue-400 mb-2"></i>
+                        <h3 data-i18n="cardCustomTitle" class="font-bold text-xs sm:text-sm text-white">Proyectos a la
+                            Medida</h3>
+                        <p data-i18n="cardCustomDesc" class="text-[11px] sm:text-xs text-slate-400 mt-1">Diseño y
+                            desarrollo con tecnología de vanguardia.</p>
+                    </div>
+                    <div class="p-3 sm:p-4 rounded-xl bg-slate-800/80 border border-slate-700">
+                        <i data-lucide="zap" class="w-6 h-6 sm:w-8 sm:h-8 text-yellow-400 mb-2"></i>
+                        <h3 data-i18n="cardAssemblyTitle" class="font-bold text-xs sm:text-sm text-white">Ensamble
+                            Eléctrico</h3>
+                        <p data-i18n="cardAssemblyDesc" class="text-[11px] sm:text-xs text-slate-400 mt-1">Tableros para
+                            bombas a tensión plena o porcentaje.</p>
+                    </div>
+                    <div class="p-3 sm:p-4 rounded-xl bg-slate-800/80 border border-slate-700">
+                        <i data-lucide="shield-check" class="w-6 h-6 sm:w-8 sm:h-8 text-emerald-400 mb-2"></i>
+                        <h3 data-i18n="cardDistTitle" class="font-bold text-xs sm:text-sm text-white">Distribución
+                            Oficial</h3>
+                        <p data-i18n="cardDistDesc" class="text-[11px] sm:text-xs text-slate-400 mt-1">Equipos de
+                            medición UNI-T y LEFOO.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- SERVICIOS / SOLUCIONES -->
+    <section id="soluciones" class="py-12 sm:py-16 px-4 max-w-7xl mx-auto mb-12">
+        <br>
+        <div class="text-center max-w-2xl mx-auto mb-8 sm:mb-12">
+            <h2 data-i18n="secSolutionsTitle" class="text-xl font-bold text-slate-500 font-extrabold mb-3">Nuestras
+                Soluciones Electrónicas</h2>
+            <p data-i18n="secSolutionsDesc" class="text-slate-600 text-lg ">Ofrecemos soporte integral en
+                electrónica industrial, tarjetas genéricas de reemplazo y diseños personalizados.</p>
+        </div>
+
+        <!-- Card 1 -->
+        <div id="diseno" class="pb-2 space-y-4"><br>
+            <br>
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 hover:shadow-md transition">
+                <div class="w-12 h-12 bg-blue-50 text-brand-accent rounded-lg flex items-center justify-center mb-4">
+                    <i data-lucide="cpu" class="w-6 h-6"></i>
+                </div>
+                <h3 data-i18n="solCustomTitle" class="text-lg font-bold text-slate-900 mb-2">Diseño a la
+                    Medida</h3>
+                <p data-i18n="solCustomDesc" class="text-slate-600 text-xs sm:text-sm mb-4">Personal altamente
+                    calificado para el diseño y desarrollo de proyectos electrónicos externos ajustados a requerimientos
+                    específicos.</p>
+                <ul class="text-xs text-slate-500 space-y-2">
+                    <li class="flex items-center gap-2"><i data-lucide="check"
+                            class="w-4 h-4 text-emerald-500 shrink-0"></i> <span data-i18n="solCustomItem1">Tecnología
+                            de vanguardia</span></li>
+                    <li class="flex items-center gap-2"><i data-lucide="check"
+                            class="w-4 h-4 text-emerald-500 shrink-0"></i> <span data-i18n="solCustomItem2">Tarjetas
+                            genéricas de reemplazo</span></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div id="ensamble" class="pb-2 space-y-4"><br>
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 hover:shadow-md transition">
+                <div class="w-12 h-12 bg-amber-50 text-amber-600 rounded-lg flex items-center justify-center mb-4">
+                    <i data-lucide="settings" class="w-6 h-6"></i>
+                </div>
+                <h3 data-i18n="solAssemblyTitle" class="text-lg font-bold text-slate-900 mb-2">Ensamble y Señalización
+                </h3>
+                <p data-i18n="solAssemblyDesc" class="text-slate-600 text-xs sm:text-sm mb-4">Ensamble de tableros para
+                    bombas de agua y señalización LED especializada.</p>
+                <ul class="text-xs text-slate-500 space-y-2">
+                    <li class="flex items-center gap-2"><i data-lucide="check"
+                            class="w-4 h-4 text-emerald-500 shrink-0"></i> <span data-i18n="solAssemblyItem1">Tensión
+                            plena o por porcentaje</span></li>
+                    <li class="flex items-center gap-2"><i data-lucide="check"
+                            class="w-4 h-4 text-emerald-500 shrink-0"></i> <span
+                            data-i18n="solAssemblyItem2">Integración
+                            DANFOSS, ABB y HMI</span></li>
+                    <li class="flex items-center gap-2"><i data-lucide="check"
+                            class="w-4 h-4 text-emerald-500 shrink-0"></i> <span data-i18n="solAssemblyItem3">Tarjetas
+                            LED para tractocamiones (Ámbar, Stop, Reversa)</span></li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Card 2 -->
+        <div id="ensamble" class="pb-2 space-y-4"><br>
+            <div
+                class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 hover:shadow-md transition ring-2 ring-brand-blue/10">
+                <div class="w-12 h-12 bg-red-50 text-red-600 rounded-lg flex items-center justify-center mb-4">
+                    <i data-lucide="flame" class="w-6 h-6"></i>
+                </div>
+                <h3 data-i18n="solFireTitle" class="text-lg font-bold text-slate-900 mb-2">Sistemas Contra Incendio
+                </h3>
+                <p data-i18n="solFireDesc" class="text-slate-600 text-xs sm:text-sm mb-4">Tarjetas especializadas
+                    para
+                    sistemas de bombeo y tableros de control contra incendio.</p>
+                <ul class="text-xs text-slate-500 space-y-2">
+                    <li class="flex items-center gap-2"><i data-lucide="check"
+                            class="w-4 h-4 text-emerald-500 shrink-0"></i> <span data-i18n="solFireItem1">Temporizador
+                            programable con retardo modificable</span></li>
+                    <li class="flex items-center gap-2"><i data-lucide="check"
+                            class="w-4 h-4 text-emerald-500 shrink-0"></i> <span data-i18n="solFireItem2">Cargadores
+                            Ácido-Plomo (12VCD / 24VCD)</span></li>
+                    <li class="flex items-center gap-2"><i data-lucide="check"
+                            class="w-4 h-4 text-emerald-500 shrink-0"></i> <span data-i18n="solFireItem3">Tarjeta de
+                            conexiones e Inspector</span></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    <!-- DISTRIBUCIÓN -->
+    <section id="distribucion" class="py-6 sm:py-8 bg-slate-100 border-y border-slate-200 pt-5 h-80">
+        <br>
+        <div class="max-w-7xl mx-auto px-4 text-center pt-5  space-y-4">
+            <p data-i18n="distHeader" class="text-xl font-bold text-slate-500 font-extrabold mb-3">
+                Distribuidor Autorizado e Integración Industrial
+            </p>
+            <div
+                class="flex flex-wrap justify-center items-center gap-6 sm:gap-12 font-extrabold text-base sm:text-xl text-slate-600">
+                <div class="bg-red-500 p-2">
+                    <a id="site-logo-link" href="https://www.uni-trend.com/" rel="home"><img src="unit.png"
+                            alt="UNI-T | Measurement Meters, Testing Instruments and Thermal Imaging" width="120"
+                            data-no-retina="" data-skip-lazy=""></a>
+                </div>
+                <div class=" p-4">
+                    <span class="text-red-500 font-bold text-5xl">LEFOO</span>
+                </div>
+                <span class="hover:text-brand-blue transition"><img src="danfoss.svg"
+                        alt="UNI-T | Measurement Meters, Testing Instruments and Thermal Imaging" width="120"
+                        data-no-retina="" data-skip-lazy=""></span>
+
+                <span class="hover:text-brand-blue transition">
+                    <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='64px' height='24px' viewBox='0 0 64 24'><path fill='%23ff000f' fill-rule='nonzero' d='M4.16171 12.3643L-0.0429688 24.0006H6.15144L7.88623 18.9097H11.8494V12.3643H4.16171ZM11.8496 -0.000488281H8.62972L4.42578 11.6359H11.8496V-0.000488281ZM12.5898 18.9092H16.5544L18.2892 24.0001H24.4822L20.2782 12.3638H12.5898V18.9092ZM20.0151 11.6359L15.8112 -0.000488281H12.5898V11.6359H20.0151ZM62.5763 11.6359C61.8182 10.6337 60.8199 9.81551 59.6649 9.26497C61.0117 8.34497 61.894 6.81915 61.894 5.09042C61.894 2.27878 59.5646 -0.000488281 56.6911 -0.000488281H54.957V11.6359H62.5763ZM54.957 12.3638V24.0001H56.1961C60.5754 24.0001 63.9997 20.5281 63.9997 16.243C63.9997 14.8285 63.7336 13.5049 63.0587 12.3638H54.957ZM46.7812 11.6359H54.2139V-0.000488281H46.7812V11.6359ZM46.7812 24.0001H54.2139V12.3638H46.7812V24.0001ZM42.5052 11.6359C41.7478 10.6337 40.7496 9.81551 39.5946 9.26497C40.9407 8.34497 41.8237 6.81915 41.8237 5.09042C41.8237 2.27878 39.4942 -0.000488281 36.6208 -0.000488281H34.8867V11.6359H42.5052ZM34.8867 12.3638V24.0001H36.1257C40.5051 24.0001 43.9293 20.5281 43.9293 16.243C43.9293 14.8285 43.6632 13.5049 42.9884 12.3638H34.8867ZM26.7129 11.6359H34.1456V-0.000488281H26.7129V11.6359ZM26.7129 24.0001H34.1456V12.3638H26.7129V24.0001Z'/></svg>"
+                        alt="ABB" width="100" />
+                </span>
+                <span class="hover:text-brand-blue text-5xl">HMI</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACTO & MAPA -->
+    <section id="contacto" class="py-12 sm:py-16 bg-slate-900 text-white px-4">
+        <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-8 md:gap-12">
+
+            <!-- Info Contacto -->
+            <div>
+                <h2 data-i18n="contactTitle" class="text-xl sm:text-2xl font-bold mb-4 sm:mb-6">Ubicación y
+                    Contacto</h2>
+                <p data-i18n="contactDesc" class="text-slate-400 text-xs sm:text-sm mb-6 sm:mb-8 leading-relaxed">
+                    Ponte en contacto con nuestro equipo de ingenieros para recibir asesoría sobre tu proyecto o
+                    mantenimiento de equipos.
+                </p>
+
+                <div class="space-y-4 text-xs sm:text-sm">
+                    <div class="flex items-start gap-3 sm:gap-4">
+                        <i data-lucide="map-pin" class="w-5 h-5 text-brand-orange mt-1 shrink-0"></i>
+                        <div>
+                            <p data-i18n="lblAddress" class="font-semibold text-white">Dirección:</p>
+                            <p class="text-slate-300">Calle Azucena 24 A, Colonia La Tijera, Tlajomulco de Zúñiga,
+                                Jalisco.</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-3 sm:gap-4">
+                        <i data-lucide="phone" class="w-5 h-5 text-brand-orange shrink-0"></i>
+                        <div>
+                            <p data-i18n="lblPhone" class="font-semibold text-white">Teléfono:</p>
+                            <p class="text-slate-300">+52 1 33 5036 3374</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-3 sm:gap-4">
+                        <i data-lucide="message-square" class="w-5 h-5 text-emerald-400 shrink-0"></i>
+                        <div>
+                            <p class="font-semibold text-white">WhatsApp:</p>
+                            <p class="text-slate-300">+52 1 33 1325 5650</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-3 sm:gap-4">
+                        <i data-lucide="mail" class="w-5 h-5 text-brand-orange shrink-0"></i>
+                        <div>
+                            <p data-i18n="lblEmail" class="font-semibold text-white">Correo Electrónico:</p>
+                            <p class="text-slate-300">reinaldo.garcia1026@gmail.com</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mapa -->
+            <div class="w-full h-64 sm:h-80 rounded-xl overflow-hidden border border-slate-700 shadow-lg">
+                <iframe title="Ubicación RG Electronics"
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3735.1234!2d-103.4!3d20.58!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjDCsDM0JzEyLjAiTiAxMDPCsDI0JzAwLjAiVw!5e0!3m2!1ses!2smx!4v1600000000000!5m2!1ses!2smx"
+                    class="w-full h-full border-0" allowfullscreen="" loading="lazy">
+                </iframe>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-slate-950 text-slate-500 text-xs py-6 px-4 border-t border-slate-800">
+        <div
+            class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4 text-center sm:text-left">
+            <p>&copy; RG Electronics. <span data-i18n="footerRights">Todos los derechos reservados.</span></p>
+            <div class="flex gap-4">
+                <a href="#" data-i18n="footerPrivacy" class="hover:text-slate-300">Aviso de Privacidad</a>
+                <a href="#" data-i18n="footerTerms" class="hover:text-slate-300">Términos de Servicio</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- WHATSAPP FLOATING BUTTON -->
+    <a href="https://wa.me/5213313255650?text=Hola,%20quisiera%20solicitar%20información%20sobre%20sus%20servicios%20de%20diseño%20y%20soluciones%20electrónicas."
+        target="_blank" aria-label="Contactar por WhatsApp"
+        class="fixed bottom-5 right-5 bg-emerald-500 hover:bg-emerald-600 text-white p-3 sm:p-3.5 rounded-full shadow-2xl transition-transform hover:scale-110 z-50 flex items-center justify-center">
+        <i data-lucide="message-circle" class="w-6 h-6 sm:w-7 sm:h-7"></i>
+    </a>
+
+    <!-- MODAL / FORMULARIO -->
+    <div id="modal"
+        class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl relative">
+            <button onclick="toggleModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+
+            <h3 data-i18n="modalTitle" class="text-xl font-bold text-slate-900 mb-1">Solicitud de Servicio</h3>
+            <p data-i18n="modalDesc" class="text-xs text-slate-500 mb-6">Llena el siguiente formulario y un ingeniero se
+                pondrá en contacto contigo.</p>
+
+            <form onsubmit="handleFormSubmit(event)" class="space-y-4 text-xs sm:text-sm">
+                <div>
+                    <label data-i18n="formName" class="block text-slate-700 font-medium mb-1">Nombre Completo</label>
+                    <input type="text" required
+                        class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-accent focus:outline-none"
+                        placeholder="Ing. Juan Pérez" />
+                </div>
+                <div>
+                    <label data-i18n="formPhone" class="block text-slate-700 font-medium mb-1">Teléfono o
+                        WhatsApp</label>
+                    <input type="tel" required
+                        class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-accent focus:outline-none"
+                        placeholder="33 0000 0000" />
+                </div>
+                <div>
+                    <label data-i18n="formService" class="block text-slate-700 font-medium mb-1">Tipo de
+                        Servicio</label>
+                    <select id="select-service"
+                        class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-accent focus:outline-none">
+                        <option data-i18n="opt1">Diseño Electrónico a la Medida</option>
+                        <option data-i18n="opt2">Tarjetas para Sistemas Contra Incendio</option>
+                        <option data-i18n="opt3">Ensamble de Tableros Eléctricos</option>
+                        <option data-i18n="opt4">Distribución UNI-T / LEFOO</option>
+                        <option data-i18n="opt5">Otro / Consulta General</option>
+                    </select>
+                </div>
+                <div>
+                    <label data-i18n="formDetails" class="block text-slate-700 font-medium mb-1">Detalles del
+                        Proyecto</label>
+                    <textarea rows="3"
+                        class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-accent focus:outline-none"
+                        placeholder="..."></textarea>
+                </div>
+                <button type="submit" data-i18n="formSubmit"
+                    class="w-full bg-brand-orange hover:bg-orange-600 text-white font-semibold py-2.5 rounded-lg transition shadow">
+                    Enviar Solicitud
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT: INTERACTIVIDAD E INTERNACIONALIZACIÓN (i18n) -->
+    <script>
+        // 1. DICCIONARIO BILINGÜE
+        const translations = {
+            es: {
+                tagline: "Ingeniería & Soluciones",
+                navHome: "Inicio",
+                navDesign: "Diseño",
+                navFire: "Sistemas Contra Incendio",
+                navDist: "Distribución",
+                navAssembly: "Ensamble",
+                navContact: "Contacto",
+                btnQuote: "Solicitar Cotización",
+                heroBadge: "Más de 25 años de experiencia",
+                heroTitle: "Diseño y Soluciones Electrónicas Industriales a la Medida",
+                heroSubtitle: "Especialistas en tarjetas electrónicas para sistemas contra incendio, ensamble de tableros eléctricos y distribución autorizada de equipo industrial.",
+                heroCta: "Solicitud de Servicio",
+                heroSecondary: "Ver Soluciones",
+                cardFireTitle: "Sistemas Contra Incendio",
+                cardFireDesc: "Tarjetas de temporización, conexiones e inspector.",
+                cardCustomTitle: "Proyectos a la Medida",
+                cardCustomDesc: "Diseño y desarrollo con tecnología de vanguardia.",
+                cardAssemblyTitle: "Ensamble Eléctrico",
+                cardAssemblyDesc: "Tableros para bombas a tensión plena o porcentaje.",
+                cardDistTitle: "Distribución Oficial",
+                cardDistDesc: "Equipos de medición UNI-T y LEFOO.",
+                distHeader: "Distribuidor Autorizado e Integración Industrial",
+                secSolutionsTitle: "Nuestras Soluciones Electrónicas",
+                secSolutionsDesc: "Ofrecemos soporte integral en electrónica industrial, tarjetas genéricas de reemplazo y diseños personalizados.",
+                solCustomTitle: "Diseño a la Medida",
+                solCustomDesc: "Personal altamente calificado para el diseño y desarrollo de proyectos electrónicos externos ajustados a requerimientos específicos.",
+                solCustomItem1: "Tecnología de vanguardia",
+                solCustomItem2: "Tarjetas genéricas de reemplazo",
+                solFireTitle: "Sistemas Contra Incendio",
+                solFireDesc: "Tarjetas especializadas para sistemas de bombeo y tableros de control contra incendio.",
+                solFireItem1: "Temporizador programable con retardo modificable",
+                solFireItem2: "Cargadores Ácido-Plomo (12VCD / 24VCD)",
+                solFireItem3: "Tarjeta de conexiones e Inspector",
+                solAssemblyTitle: "Ensamble y Señalización",
+                solAssemblyDesc: "Ensamble de tableros para bombas de agua y señalización LED especializada.",
+                solAssemblyItem1: "Tensión plena o por porcentaje",
+                solAssemblyItem2: "Integración DANFOSS, ABB y HMI",
+                solAssemblyItem3: "Tarjetas LED para tractocamiones (Ámbar, Stop, Reversa)",
+                contactTitle: "Ubicación y Contacto",
+                contactDesc: "Ponte en contacto con nuestro equipo de ingenieros para recibir asesoría sobre tu proyecto o mantenimiento de equipos.",
+                lblAddress: "Dirección:",
+                lblPhone: "Teléfono:",
+                lblEmail: "Correo Electrónico:",
+                footerRights: "Todos los derechos reservados.",
+                footerPrivacy: "Aviso de Privacidad",
+                footerTerms: "Términos de Servicio",
+                modalTitle: "Solicitud de Servicio",
+                modalDesc: "Llena el siguiente formulario y un ingeniero se pondrá en contacto contigo.",
+                formName: "Nombre Completo",
+                formPhone: "Teléfono o WhatsApp",
+                formService: "Tipo de Servicio",
+                opt1: "Diseño Electrónico a la Medida",
+                opt2: "Tarjetas para Sistemas Contra Incendio",
+                opt3: "Ensamble de Tableros Eléctricos",
+                opt4: "Distribución UNI-T / LEFOO",
+                opt5: "Otro / Consulta General",
+                formDetails: "Detalles del Proyecto",
+                formSubmit: "Enviar Solicitud",
+                alertSuccess: "¡Gracias por tu mensaje! Tu solicitud ha sido registrada correctamente."
+            },
+            en: {
+                tagline: "Engineering & Solutions",
+                navHome: "Home",
+                navDesign: "Design",
+                navFire: "Fire Protection Systems",
+                navDist: "Distribution",
+                navAssembly: "Assembly",
+                navContact: "Contact",
+                btnQuote: "Request a Quote",
+                heroBadge: "Over 25 years of experience",
+                heroTitle: "Custom Industrial Electronic Design & Solutions",
+                heroSubtitle: "Specialists in electronic boards for fire protection systems, electrical panel assembly, and authorized distribution of industrial equipment.",
+                heroCta: "Service Request",
+                heroSecondary: "View Solutions",
+                cardFireTitle: "Fire Protection Systems",
+                cardFireDesc: "Timer, connection, and inspector control boards.",
+                cardCustomTitle: "Custom Projects",
+                cardCustomDesc: "Design and development with cutting-edge technology.",
+                cardAssemblyTitle: "Electrical Assembly",
+                cardAssemblyDesc: "Pump control panels (full voltage or reduced).",
+                cardDistTitle: "Official Distribution",
+                cardDistDesc: "UNI-T and LEFOO measurement equipment.",
+                distHeader: "Authorized Distributor & Industrial Integration",
+                secSolutionsTitle: "Our Electronic Solutions",
+                secSolutionsDesc: "Comprehensive support in industrial electronics, generic replacement boards, and custom engineering.",
+                solCustomTitle: "Custom Electronic Design",
+                solCustomDesc: "Highly qualified personnel for the design and development of external electronic projects tailored to specific needs.",
+                solCustomItem1: "Cutting-edge technology",
+                solCustomItem2: "Generic replacement boards",
+                solFireTitle: "Fire Protection Systems",
+                solFireDesc: "Specialized circuit boards for fire pump systems and control panels.",
+                solFireItem1: "Programmable timer with adjustable delay",
+                solFireItem2: "Lead-Acid Battery Chargers (12VDC / 24VDC)",
+                solFireItem3: "Connection board and Inspector board",
+                solAssemblyTitle: "Assembly & Signaling",
+                solAssemblyDesc: "Water pump panel assembly and specialized LED signaling.",
+                solAssemblyItem1: "Full voltage or reduced percentage",
+                solAssemblyItem2: "DANFOSS, ABB, and HMI integration",
+                solAssemblyItem3: "LED boards for trucks (Amber, Stop, Reverse)",
+                contactTitle: "Location & Contact",
+                contactDesc: "Get in touch with our engineering team for consulting on your project or equipment maintenance.",
+                lblAddress: "Address:",
+                lblPhone: "Phone:",
+                lblEmail: "Email:",
+                footerRights: "All rights reserved.",
+                footerPrivacy: "Privacy Policy",
+                footerTerms: "Terms of Service",
+                modalTitle: "Service Request",
+                modalDesc: "Fill out the form below and an engineer will contact you shortly.",
+                formName: "Full Name",
+                formPhone: "Phone or WhatsApp",
+                formService: "Service Type",
+                opt1: "Custom Electronic Design",
+                opt2: "Fire Protection Control Boards",
+                opt3: "Electrical Panel Assembly",
+                opt4: "UNI-T / LEFOO Distribution",
+                opt5: "Other / General Inquiry",
+                formDetails: "Project Details",
+                formSubmit: "Submit Request",
+                alertSuccess: "Thank you! Your request has been successfully submitted."
+            }
+        };
+
+        let currentLang = 'es';
+
+        function switchLanguage(lang) {
+            currentLang = lang;
+
+            // Actualizar botones del selector
+            const btnEs = document.getElementById('btn-es');
+            const btnEn = document.getElementById('btn-en');
+
+            if (lang === 'es') {
+                btnEs.className = 'px-2 py-0.5 rounded bg-brand-orange text-white transition';
+                btnEn.className = 'px-2 py-0.5 rounded text-slate-400 hover:text-white transition';
+            } else {
+                btnEn.className = 'px-2 py-0.5 rounded bg-brand-orange text-white transition';
+                btnEs.className = 'px-2 py-0.5 rounded text-slate-400 hover:text-white transition';
+            }
+
+            // Reemplazar textos
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (translations[lang][key]) {
+                    element.textContent = translations[lang][key];
+                }
+            });
+        }
+
+        // 2. CONTROLES DE INTERFAZ Y MÓVIL
+        lucide.createIcons();
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        function toggleModal() {
+            const modal = document.getElementById('modal');
+            modal.classList.toggle('hidden');
+        }
+
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            alert(translations[currentLang].alertSuccess);
+            toggleModal();
+        }
+    </script>
+
+</body>
+
+</html>
